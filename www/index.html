@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="description" content="getUserMedia example" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+	<meta itemprop="name" content="getUserMedia">
+	<meta itemprop="image" content="/icon_192x192.png">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta id="theme-color" name="theme-color" content="#fff">
+	<base target="_blank">
+	<title>getUserMedia</title>
+	<link rel="stylesheet" href="css/main.css" />
+	</style -->
+</head>
+
+<body>
+	<!-- div style="visibility: hidden;  width:0; height:0;">
+	     <canvas id="canvas" width="320" height="240"></canvas>
+	</div -->
+
+	<div id="container">
+	    <h1>Facial Recognition Demo</h1>
+	    <h3>Select your server:</h3>
+		<select id="targetServer" name="targetServer">
+		  <option value="ws://localhost:8080/afrs/websocket/afrsAnnotation">Local</option>
+		  <option value="ws://ec2-54-69-144-145.us-west-2.compute.amazonaws.com:8080/afrs">WS3</option>
+		</select> 
+	    <hr>
+		<p>
+	    <h2>Live video from which we will capture an image of the face.</h2>
+		<video  id="live"   width="320" height="240" autoplay style="display: inline;"></video>
+	        <button id="capture" onclick="captureAndSend();">Capture</button>
+	    <h2>The captured image. </h2>
+		<canvas id="canvas" width="320" height="240" style="display: inline;"></canvas>
+	    <hr>
+		<img id="targetImage" style="display: inline;" height="240" width="320"/>
+	</div>
+
+	<div class="noscript"><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websockets rely on Javascript being enabled. Please enable
+	    Javascript and reload this page!</h2></div>
+	<div>
+	    <div id="connect-container">
+		<div>
+		    <span>Connect to the websocket service using:</span>
+        	    <br/>
+		    <input id="radio1" type="radio" name="group1" value=":8080/afrs/websocket/afrsProgrammatic"
+			   onclick="updateTarget(this.value);"/> <label for="radio1">programmatic API</label>
+        	    <br/>
+		    <input id="radio2" type="radio" name="group1" value=":8080/afrs/websocket/afrsAnnotation"
+			   onclick="updateTarget(this.value);"/> <label for="radio2">annotation API</label>
+        	    <br/>
+	            <input id="radio3" type="radio" name="group1" value=":8080/afrs/websocket/afrsStreamAnnotation"
+	                   onclick="updateTarget(this.value);"/> <label for="radio3">annotation API (stream)</label>
+        	    <br/>
+		</div>
+		<div>
+		    <input id="target" type="text" size="40" style="width: 350px"/>
+		</div>
+		<div>
+		    <button id="connect" onclick="connect();">Connect</button>
+		    <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+		</div>
+		<div>
+		    <textarea id="message" style="width: 350px">Here is a message!</textarea>
+		</div>
+		<div>
+		    <button id="echo" onclick="echo();" disabled="disabled">Echo message</button>
+		</div>
+	    </div>
+	    <div id="console-container">
+		<div id="console"/>
+	    </div>
+	</div>
+
+	<script src="js/main.js"></script>
+</body>
+</html>
