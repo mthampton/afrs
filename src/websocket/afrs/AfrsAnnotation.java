@@ -18,6 +18,7 @@ import javax.websocket.server.ServerEndpoint;
 public class AfrsAnnotation {
     
     private AfrsFaceDetection afd = new AfrsFaceDetection();
+    private AfrsFaceRecognizer afr = new AfrsFaceRecognizer();
 
     @OnMessage
     public void afrsTextMessage(Session session, String msg, boolean last) {
@@ -34,13 +35,12 @@ public class AfrsAnnotation {
         }
     }
 
-    @OnMessage
-    public void afrsBinaryMessage(Session session, ByteBuffer bb,
-            boolean last) {
+    @OnMessage(maxMessageSize = 1024*1024)
+    public void afrsBinaryMessage(Session session, ByteBuffer bb, boolean last) {
         try {
             if (session.isOpen()) {
-                session.getBasicRemote().sendBinary(afd.convert(bb), last);
-//                session.getBasicRemote().sendBinary(bb, last);
+                afrsTextMessage(session, afr.compareImage(bb), last);
+//              session.getBasicRemote().sendBinary(afd.convert(bb), last);
             }
         } catch (IOException e) {
             try {

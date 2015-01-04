@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
+
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfRect;
@@ -45,37 +46,38 @@ class AfrsFaceDetection {
         return this.convert(ByteBuffer.wrap(imageData)).array();       
     }
     
+    
+    public Mat getGreyMat(ByteBuffer bb) throws IOException {
+        Mat oImage = new Mat(1, bb.array().length, CvType.CV_8UC3);
+        Path path = Paths.get("capture.png");
+        java.nio.file.Files.write(path, bb.array());
+        oImage = Highgui.imread("capture.png");
+        Mat nImage = new Mat(1, bb.array().length, CvType.CV_8UC1);
+        Imgproc.cvtColor(oImage, nImage, Imgproc.COLOR_BGR2GRAY);
+        return nImage;
+    }
+    
+    private ByteBuffer matToByteBuffer(Mat image) throws IOException {
+        // convert the resulting image back to an array
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        BufferedImage imgb = (BufferedImage)toBufferedImage(image);
+        ImageIO.write(imgb, "png", bout);
+        return ByteBuffer.wrap(bout.toByteArray());
+    }
+    
+    
+    public ByteBuffer getGreyByteBuffer(ByteBuffer bb) throws IOException {
+        Mat greyMat = getGreyMat(bb);
+        return matToByteBuffer(greyMat);
+    }
+    
     public ByteBuffer convert(ByteBuffer imageData) throws IOException {
-
         // Create a face detector from the cascade file.
         // TODO: Remove the leading slash if this is windows.
         CascadeClassifier faceDetector = new CascadeClassifier(getClass()
                 .getResource(CASCADE_FILE).getPath().substring(1));
         
-        Path p = Paths.get("/captureRaw.png");
-        FileChannel fileOut = FileChannel.open(p, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
-        fileOut.write(imageData);
-        //Mat oImage = Highgui.imdecode( new MatOfByte(imageData.array()), Highgui.IMREAD_UNCHANGED);
-        
-        //BufferedImage bi = new BufferedImage(320, 240, BufferedImage.TYPE_3BYTE_BGR);
-        //bi = ImageIO.read(new ByteArrayInputStream(imageData.array()));
-        //byte [] ba = ((DataBufferByte) bi.getRaster().getDataBuffer()).getData();
-        //ImageIO.write(image, "png", new File("/","snap.png"));
-                
-        Mat oImage = new Mat(1, imageData.array().length, CvType.CV_8UC3);
-        //Mat oImage = new Mat(320, 240, CvType.CV_8UC3);
-        
-        Path path = Paths.get("capture.png");
-        java.nio.file.Files.write(path, imageData.array());
-        oImage = Highgui.imread("capture.png");
-        
-        //oImage.put(0, 0, imageData.array());
-        
-        Mat nImage = new Mat(1, imageData.array().length, CvType.CV_8UC1);
-        //Mat nImage = new Mat(320, 240, CvType.CV_8UC1);
-        Imgproc.cvtColor(oImage, nImage, Imgproc.COLOR_BGR2GRAY);
-        
-
+        Mat nImage = getGreyMat(imageData);
         // Detect faces in the image.
         // MatOfRect is a special container class for Rect.
         MatOfRect faceDetections = new MatOfRect();
@@ -87,12 +89,7 @@ class AfrsFaceDetection {
                     + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
         }
 
-        // convert the resulting image back to an array
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        BufferedImage imgb = (BufferedImage)toBufferedImage(nImage);
-        ImageIO.write(imgb, "png", bout);
-        
-        ByteBuffer byteBuff = ByteBuffer.wrap(bout.toByteArray());
+        ByteBuffer byteBuff = matToByteBuffer(nImage);
         return byteBuff;
     }
     
@@ -110,7 +107,6 @@ class AfrsFaceDetection {
         return image;
 
     }
-    
     
     private BufferedImage mat2BufferedImage(Mat image) {
         MatOfByte byteMat = new MatOfByte();
@@ -168,5 +164,4 @@ class AfrsFaceDetection {
 
         return image;
     }
-    
 }

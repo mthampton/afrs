@@ -1,0 +1,5 @@
+<Context>
+        <!-- Parameter name="binaryBufferSize" value="20971520"/-->
+        <Parameter name="org.apache.tomcat.websocket.binaryBufferSize" value="80971520"/>
+        <Parameter name="org.apache.tomcat.websocket.textBufferSize" value="80971520"/>
+</Context>

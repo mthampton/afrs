@@ -31,7 +31,7 @@
 		<video  id="live"   width="320" height="240" autoplay style="display: inline;"></video>
 	        <button id="capture" onclick="captureAndSend();">Capture</button>
 	    <h2>The captured image. </h2>
-		<!-- canvas id="canvas" width="320" height="240" style="display: inline;"></canvas -->
+		<canvas id="canvas" width="320" height="240" style="display: inline;"></canvas>
 	    <hr>
 		<img id="targetImage" style="display: inline;" height="240" width="320"/>
 	</div>
