@@ -51,6 +51,8 @@ public class AfrsAnnotation {
             	if (faceIDs.containsKey(face.getFace())) {
             		msg.append("{\"name\": \"")
             				.append(faceIDs.get(face.getFace()))
+            				.append("\", \"ci\": \"")
+            				.append(face.getConfidence())
             				.append("\"}");
             	} else {
             		msg.append("{\"error\": \"You are not authorized to unlock this vehicle\"}");
