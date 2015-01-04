@@ -13,16 +13,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class Car {
-
+	private final M2XDoorEvents doorLog = new M2XDoorEvents();
     private String server;
-
     private String vin;
 
     public Car(String server, String vin) {
-
         this.vin = vin;
         this.server = server;
-
     }
 
     public void initialize() {
@@ -30,36 +27,22 @@ public class Car {
     }
 
     public boolean lock() {
-
-
-        try {
-            HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(server
-                + "/remoteservices/v1/vehicle/lock/" + vin);
-            // StringEntity input = new StringEntity("product");
-            // post.setEntity(input);
-            HttpResponse response = client.execute(post);
-            BufferedReader rd = new BufferedReader(new InputStreamReader(
-                response.getEntity().getContent()));
-            String line = "";
-            while ((line = rd.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            return true;
-        } catch (IOException ioe) {
-            return false;
-
-        }
-
+    	boolean retVal = lockCmd("lock");
+    	doorLog.lockDoor();
+    	return retVal;
     }
 
     public boolean unlock() {
+    	boolean retVal = lockCmd("unlock");
+    	doorLog.unlockDoor();
+    	return retVal;
+    }
 
+    private boolean lockCmd(String cmd) {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(server
-                + "/remoteservices/v1/vehicle/unlock/" + vin);
+                + "/remoteservices/v1/vehicle/" + cmd + '/' + vin);
             // StringEntity input = new StringEntity("product");
             // post.setEntity(input);
             HttpResponse response = client.execute(post);
