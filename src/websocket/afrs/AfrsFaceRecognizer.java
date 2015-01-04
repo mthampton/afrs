@@ -64,7 +64,7 @@ public class AfrsFaceRecognizer {
         faceRecognizer.train(images, labels);
     }
         
-     public String compareImage(ByteBuffer bb) throws IOException {  
+     public FaceMatch compareImage(ByteBuffer bb) throws IOException {  
          train();
 //        Mat testImage = imread(TEST_IMAGE, CV_LOAD_IMAGE_GRAYSCALE);
          int predictedLabel = -1;
@@ -76,6 +76,6 @@ public class AfrsFaceRecognizer {
             double[] da = new double[1];
             faceRecognizer.predict(mat,ia,da);
          
-         return Integer.toString(ia[0]) + ':' + Double.toString(da[0]);
+         return new FaceMatch(ia[0], da[0]);
     }
 }

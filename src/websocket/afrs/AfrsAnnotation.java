@@ -19,10 +19,10 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint("/websocket/afrsAnnotation")
 public class AfrsAnnotation {
     private static final Map<Integer, String> faceIDs = new HashMap<Integer, String>();
-    private AfrsFaceDetection afd = new AfrsFaceDetection();
     private AfrsFaceRecognizer afr = new AfrsFaceRecognizer();
 
     static {
+    	faceIDs.put(2, "Anthony Martin");
     	faceIDs.put(3, "Joshua Tharp");
     }
     
