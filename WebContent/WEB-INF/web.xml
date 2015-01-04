@@ -7,6 +7,19 @@
         AFRS Prototype
     </description>
 	<display-name>AFRS Prototype</display-name>
+	 <!-- context-param>
+        <param-name>byteBufferMaxSize</param-name>
+        <param-value>20971520</param-value>
+      </context-param>
+	 <context-param>
+        <param-name>binaryBufferSize</param-name>
+        <param-value>20971520</param-value>
+      </context-param>
+      <context-param>
+        <param-name>charBufferMaxSize</param-name>
+        <param-value>20971520</param-value>
+      </context-param-->
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

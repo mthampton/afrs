@@ -94,8 +94,10 @@ function connect() {
         log('Received the processed message: ' + event.data);
         //log('Received a message: ');
 	var targetImage = document.getElementById("targetImage");
-	var url = window.webkitURL.createObjectURL(event.data);
-	//log('The url is: ' + url);
+        log('Set the targetImage: ' + targetImage);
+	//var url = window.webkitURL.createObjectURL(event.data);
+	var url = URL.createObjectURL(event.data);
+	log('The url is: ' + url);
 	targetImage.onload = function() {
 		window.webkitURL.revokeObjectURL(url);
 	};
@@ -129,7 +131,9 @@ function echo() {
 function sendBlob(blob) {
     if (ws != null) {
         log('Sending the image for processing.');
+        log('ws.bufferedAmount: ' + ws.bufferedAmount);
         ws.send(blob);
+        log('ws.bufferedAmount: ' + ws.bufferedAmount);
     } else {
         alert('WebSocket connection not established, please connect.');
     }
@@ -147,9 +151,10 @@ function captureAndSend() {
 	ctx.drawImage(video, 0, 0, 320, 240);
 	var data = canvas.toDataURL('image/png', 1.0);
 	//log('The data that was captured: ' + data);
-	var newblob = dataURItoBlob3(data);
+	var newblob = dataURItoBlob2(data);
 	//log('The blob: ' + newblob);
 	if (ws != null) {
+		log('Blob size: ' + newblob.size);
 	    sendBlob(newblob);
 	}
 }

@@ -14,9 +14,9 @@
 </head>
 
 <body>
-	<!-- div style="visibility: hidden;  width:0; height:0;">
+	<div style="visibility: hidden;  width:0; height:0;">
 	     <canvas id="canvas" width="320" height="240"></canvas>
-	</div -->
+	</div>
 
 	<div id="container">
 	    <h1>Facial Recognition Demo</h1>
@@ -31,10 +31,13 @@
 		<video  id="live"   width="320" height="240" autoplay style="display: inline;"></video>
 	        <button id="capture" onclick="captureAndSend();">Capture</button>
 	    <h2>The captured image. </h2>
-		<canvas id="canvas" width="320" height="240" style="display: inline;"></canvas>
+		<!-- canvas id="canvas" width="320" height="240" style="display: inline;"></canvas -->
 	    <hr>
 		<img id="targetImage" style="display: inline;" height="240" width="320"/>
 	</div>
+	<!--div id="console-container">
+	   <div id="console"/>
+	</div-->
 
 	<div class="noscript"><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websockets rely on Javascript being enabled. Please enable
 	    Javascript and reload this page!</h2></div>

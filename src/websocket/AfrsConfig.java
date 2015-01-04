@@ -16,6 +16,7 @@ public class AfrsConfig implements ServerApplicationConfig {
             Set<Class<? extends Endpoint>> scanned) {
 
         Set<ServerEndpointConfig> result = new HashSet<>();
+//        result.add(ServerEndpointConfig.Configurator ( org.apache.tomcat.websocket.binaryBufferSize, path))
 
         if (scanned.contains(AfrsEndpoint.class)) {
             result.add(ServerEndpointConfig.Builder.create(
